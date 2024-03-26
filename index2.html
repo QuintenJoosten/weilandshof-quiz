@@ -14,7 +14,7 @@
             height: 100vh;
             display: flex;
             justify-content: flex-start;
-            align-items: flex-start;
+            align-items: flex-;
             flex-direction: column;
             background-color: #f0f0f0;
             /* Light gray background color */
@@ -130,7 +130,7 @@
 
 <body>
     <!-- Home button -->
-    <button class="homeButton" onclick="goToStart()"><i class="fas fa-home"></i></button>
+    <button class="homeButton" onclick="goTo()"><i class="fas fa-home"></i></button>
 
     <!-- Profile box -->
     <div id="profileContainer">
@@ -150,8 +150,8 @@
 
     <!-- JavaScript for math question -->
     <script>
-        function goToStart() {
-            window.location.href = "start.html";
+        function goTo() {
+            window.location.href = "index.html";
         }
 
         // Retrieve URL parameters
