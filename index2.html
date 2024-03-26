@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index 2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Styles for existing code */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-direction: column;
+            background-color: #f0f0f0;
+            /* Light gray background color */
+            overflow: hidden;
+            /* Hide overflow content */
+        }
+
+        .homeButton {
+            background-color: #4CAF50;
+            /* Green background color */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            border-radius: 30px;
+            /* Make the button round */
+            cursor: pointer;
+            transition: background-color 0.3s;
+            /* Smooth transition for background color change */
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .homeButton:hover {
+            background-color: #45a049;
+            /* Darker green when hovered */
+        }
+
+        .homeButton:active {
+            background-color: #367b38;
+            /* Even darker green when clicked */
+        }
+
+        /* Styles for profile box */
+        #profileContainer {
+            position: absolute;
+            top: 20px;
+            /* Adjust as needed */
+            left: 20px;
+            /* Adjust as needed */
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            /* Align items horizontally */
+            align-items: center;
+            /* Center items vertically */
+        }
+
+        #profileName {
+            font-size: 24px;
+            margin-right: 10px;
+            /* Add space between name and picture */
+            text-align: center;
+            /* Center the text */
+        }
+
+        #profilePicture {
+            font-size: 48px;
+        }
+
+        /* Styles for math question box */
+        #mathBox {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: auto;
+            /* Center horizontally */
+        }
+
+        #question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #answer {
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #checkButton {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #checkButton:hover {
+            background-color: #45a049;
+        }
+
+        #checkButton:active {
+            background-color: #367b38;
+        }
+
+        #result {
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Home button -->
+    <button class="homeButton" onclick="goToStart()"><i class="fas fa-home"></i></button>
+
+    <!-- Profile box -->
+    <div id="profileContainer">
+        <h2 id="profileName"></h2>
+        <div id="profilePicture"></div>
+    </div>
+
+    <!-- Math question box -->
+    <div id="mathBox">
+        <h2>Math Question</h2>
+        <p id="question"></p>
+        <input type="number" id="answer" placeholder="Your Answer">
+        <button id="checkButton" onclick="checkAnswer()">Check Answer</button>
+        <p id="result"></p>
+        <button id="regenerateButton" onclick="regenerateQuestion()">Regenerate Question</button>
+    </div>
+
+    <!-- JavaScript for math question -->
+    <script>
+        function goToStart() {
+            window.location.href = "index.html";
+        }
+
+        // Retrieve URL parameters
+        var urlParams = new URLSearchParams(window.location.search);
+        var savedName = urlParams.get('name');
+        var savedProfileCharacter = urlParams.get('profileCharacter');
+
+        // Display saved name and picture
+        document.getElementById("profileName").innerText = savedName;
+        document.getElementById("profilePicture").innerText = savedProfileCharacter;
+
+        function generateQuestion() {
+            var num1 = Math.floor(Math.random() * 10) + 1; // Generate a random number between 1 and 10
+            var num2 = Math.floor(Math.random() * 10) + 1;
+            var operator = ['+', '-', 'x'][Math.floor(Math.random() * 3)]; // Randomly select an operator
+            var question = num1 + " " + operator + " " + num2;
+            document.getElementById("question").innerText = question;
+            document.getElementById("result").innerText = ""; // Clear previous result
+            document.getElementById("answer").value = ""; // Clear previous answer
+        }
+
+        function checkAnswer() {
+            var answer = parseInt(document.getElementById("answer").value);
+            var questionText = document.getElementById("question").innerText;
+            var nums = questionText.split(' ');
+            var num1 = parseInt(nums[0]);
+            var operator = nums[1];
+            var num2 = parseInt(nums[2]);
+            var correctAnswer;
+            if (operator === '+') {
+                correctAnswer = num1 + num2;
+            } else if (operator === '-') {
+                correctAnswer = num1 - num2;
+            } else if (operator === 'x') {
+                correctAnswer = num1 * num2;
+            }
+
+            var resultText;
+            if (answer === correctAnswer) {
+                resultText = "Correct!";
+            } else {
+                resultText = "Incorrect. The correct answer is: " + correctAnswer;
+            }
+
+            document.getElementById("result").innerText = resultText;
+        }
+
+        function regenerateQuestion() {
+            generateQuestion();
+        }
+        // Generate a question when the page loads
+        generateQuestion();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: #f0f0f0;
+            /* Light gray background color */
+            font-family: Arial, sans-serif;
+            /* Specify font family */
+        }
+
+        #gameNameBox {
+            background-color: #4CAF50;
+            /* Green background color for the box */
+            padding: 20px;
+            /* Add padding inside the box */
+            border-radius: 10px;
+            /* Add rounded corners to the box */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Add shadow to the box */
+            margin-top: 50px;
+            /* Add top margin to the box */
+            max-width: 400px;
+            /* Limit the width of the box */
+            text-align: center;
+            /* Center align text */
+            color: white;
+            /* Text color */
+        }
+
+
+        .character {
+            font-size: 48px;
+            /* Make characters bigger */
+            cursor: pointer;
+            /* Show pointer cursor when hovering over characters */
+            margin-right: 10px;
+            /* Add some space between characters */
+        }
+
+        #nameInput {
+            text-align: center;
+            /* Center the text in the input box */
+            margin-bottom: 10px;
+            /* Add some space below the input */
+        }
+
+        #applyButton {
+            background-color: #4CAF50;
+            /* Green background color */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            border-radius: 30px;
+            /* Make the button round */
+            cursor: pointer;
+            margin-top: 20px;
+            /* Add some space above the button */
+            transition: background-color 0.3s;
+            /* Smooth transition for background color change */
+        }
+
+        #applyButton:hover {
+            background-color: #45a049;
+            /* Darker green when hovered */
+        }
+
+        #applyButton:active {
+            background-color: #367b38;
+            /* Even darker green when clicked */
+        }
+
+        #profileBox {
+            background-color: #fff;
+            /* White background color for the box */
+            padding: 20px;
+            /* Add padding inside the box */
+            border-radius: 10px;
+            /* Add rounded corners to the box */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Add shadow to the box */
+            margin-top: 20px;
+            /* Add margin above the box */
+        }
+
+        #pictureBox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+            /* Make characters bigger */
+        }
+
+        .homeButton {
+            background-color: #4CAF50;
+            /* Green background color */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            border-radius: 30px;
+            /* Make the button round */
+            cursor: pointer;
+            transition: background-color 0.3s;
+            /* Smooth transition for background color change */
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .homeButton:hover {
+            background-color: #45a049;
+            /* Darker green when hovered */
+        }
+
+        .homeButton:active {
+            background-color: #367b38;
+            /* Even darker green when clicked */
+        }
+    </style>
+</head>
+
+<body>
+    <button class="homeButton" onclick="goToStart()"><i class="fas fa-home"></i></button>
+
+    <div id="gameNameBox">
+        <h2 id="savedGameName"></h2>
+    </div>
+
+    <h2>Name</h2>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+
+    <h2>Profile Picture</h2>
+    <div>
+        <span class="character" onclick="selectCharacter('😀')">😀</span>
+        <span class="character" onclick="selectCharacter('🐶')">🐶</span>
+        <span class="character" onclick="selectCharacter('👽')">👽</span>
+        <span class="character" onclick="selectCharacter('👦')">👦</span>
+        <span class="character" onclick="selectCharacter('👧')">👧</span>
+    </div>
+
+    <div>
+        <span class="character" onclick="selectCharacter('🐱')">🐱</span>
+        <span class="character" onclick="selectCharacter('🦊')">🦊</span>
+        <span class="character" onclick="selectCharacter('🦄')">🦄</span>
+        <span class="character" onclick="selectCharacter('👨')">👨</span>
+        <span class="character" onclick="selectCharacter('👩')">👩</span>
+    </div>
+
+    <div id="profileBox">
+        <h2 id="savedName"></h2>
+        <div id="pictureBox">
+            <span id="profileCharacter"></span>
+        </div>
+        <button id="applyButton">Apply</button>
+    </div>
+
+    <!-- Script to display saved game name -->
+    <script>
+        // Retrieve the saved game name from local storage
+        var savedGameName = localStorage.getItem("gameName");
+
+        // Display the saved game name
+        if (savedGameName) {
+            document.getElementById("savedGameName").innerText = "Game Name: " + savedGameName;
+        } else {
+            document.getElementById("savedGameName").innerText = "Game Name: (No game name saved)";
+        }
+    </script>
+
+    <script>
+        function goToStart() {
+            window.location.href = "index.html";
+        }
+        
+        document.getElementById("applyButton").addEventListener("click", function () {
+            var name = document.getElementById("nameInput").value;
+            var profileCharacter = document.getElementById("profileCharacter").innerText;
+
+            if (!name || !profileCharacter) {
+                alert("Please enter your name and select a profile picture.");
+                return;
+            }
+
+            // Encode name and profile character into URL parameters
+            var params = new URLSearchParams();
+            params.set('name', name);
+            params.set('profileCharacter', profileCharacter);
+
+            // Redirect to index2.html with URL parameters
+            window.location.href = "index2.html?" + params.toString();
+        });
+
+        function selectCharacter(character) {
+            document.getElementById("profileCharacter").innerText = character;
+            saveName(); // Call saveName function after selecting character
+        }
+
+        // Automatically save the name when the user enters it
+        document.getElementById("nameInput").addEventListener("input", function () {
+            saveName(); // Call saveName function after input event
+        });
+
+        function saveName() {
+            var name = document.getElementById("nameInput").value;
+            var profileCharacter = document.getElementById("profileCharacter").innerText;
+
+            document.getElementById("savedName").innerText = name;
+        }
+    </script>
+
+</body>
+
+</html>

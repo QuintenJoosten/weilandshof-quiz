@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0; /* Light gray background color */
+        }
+
+        .startButton {
+            background-color: #4CAF50; /* Green background color */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            border-radius: 30px; /* Make the button round */
+            cursor: pointer;
+            transition: background-color 0.3s; /* Smooth transition for background color change */
+            margin-right: 20px; /* Add some space between buttons */
+        }
+
+        .startButton:hover {
+            background-color: #45a049; /* Darker green when hovered */
+        }
+
+        .startButton:active {
+            background-color: #367b38; /* Even darker green when clicked */
+        }
+    </style>
+</head>
+
+<body>
+    <button class="startButton" onclick="goToHost()">Host</button>
+    <button class="startButton" onclick="goToPlayer()">Player</button>
+
+    <script>
+        function goToHost() {
+            // Redirect to host page
+            window.location.href = "host.html";
+        }
+
+        function goToPlayer() {
+            // Redirect to player page
+            window.location.href = "player.html";
+        }
+    </script>
+</body>
+
+</html>
