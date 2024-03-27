@@ -8,6 +8,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        /* Styles for existing code */
         body {
             margin: 0;
             padding: 0;
@@ -135,9 +136,19 @@
             document.getElementById("gameNameDisplay").innerText = "Game Name: " + gameName;
             document.getElementById("generatedCode").innerText = "Code: " + code;
             document.getElementById("codeBox").style.display = "block";
-            // Save the game name and code for future reference
-            localStorage.setItem("gameName", gameName);
-            localStorage.setItem("gameCode", code);
+
+            // Send the game name and code to the PHP script
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'save_game.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log(xhr.responseText);
+                } else {
+                    console.error('Error saving game name and code.');
+                }
+            };
+            xhr.send('gameName=' + encodeURIComponent(gameName) + '&gameCode=' + encodeURIComponent(code));
         }
     </script>
 </body>
