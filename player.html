@@ -8,7 +8,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* Styles for existing code */
         body {
             margin: 0;
             padding: 0;
@@ -152,9 +151,7 @@
             oninput="this.value = this.value.toUpperCase(); updateJoinButton()" maxlength="6">
         <button class="joinButton" onclick="joinGame()" style="display: none;">Join</button>
         <div class="gameNameBox" id="gameNameBox" style="display: none;">
-            <p id="gameName">
-                </ <p id="gameName">
-            </p>
+            <p id="gameName"></p>
         </div>
     </div>
     <button id="playGameButton" onclick="playGame()" style="display: none;">Play Game</button>
@@ -177,33 +174,41 @@
 
         function joinGame() {
             var code = document.getElementById("codeInput").value;
+            var savedGameCode = localStorage.getItem("gameCode");
+            var savedGameName = localStorage.getItem("gameName");
+            var joinButton = document.querySelector(".joinButton");
+            var playGameButton = document.getElementById("playGameButton");
+            var gameNameBox = document.getElementById("gameNameBox");
 
-            // Send the entered code to the PHP script to check if it's valid and retrieve the game name
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'get_game.php?gameCode=' + encodeURIComponent(code), true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.success) {
-                        document.getElementById("gameName").innerText = response.gameName;
-                        document.getElementById("gameNameBox").style.display = "block";
-                        document.getElementById("playGameButton").style.display = "block";
-                    } else {
-                        alert("Invalid code. Please try again.");
-                        document.getElementById("playGameButton").style.display = "none";
-                        document.getElementById("gameNameBox").style.display = "none";
-                    }
-                } else {
-                    console.error('Error retrieving game name.');
-                }
-            };
-            xhr.send();
+            if (code === savedGameCode && savedGameName) {
+                document.getElementById("gameName").innerText = "Game Name : " + savedGameName;
+                gameNameBox.style.display = "block";
+                playGameButton.style.display = "block";
+                // Additional logic to join the game with the provided code
+            } else {
+                alert("Invalid code. Please try again.");
+                // Hide the "Play Game" button and the game name box
+                playGameButton.style.display = "none";
+                gameNameBox.style.display = "none";
+            }
         }
 
         function playGame() {
             // Redirect to the index page
             window.location.href = "profile.html";
         }
+
+        // Function to extract URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Get the game name from URL parameter and display it
+        var gameName = getUrlParameter('gameName');
+        document.getElementById("gameName").innerText = "Game Name: " + gameName;
     </script>
 </body>
 
